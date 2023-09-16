@@ -1,5 +1,6 @@
 import {Usuario} from '../models/Usuario.js'
 import {Producto} from '../models/Producto.js'
+import {Categoria} from '../models/Categoria.js'
 
 export async function getUsuarios(req,res){
    
@@ -90,4 +91,43 @@ export async function deleteUsuario(req,res){
             message:error.message,
         })
     }   
+}
+
+export async function getUsuarioCategoria(req,res){
+
+    const { id }=req.params;
+
+    try {
+        const categoria=await Categoria.findAll({
+           attributes:['id','nombre','usuario_id'],
+            where :{usuario_id: id},
+        })
+        return res.json(categoria);
+    } catch (error) {
+        res.status(500).json({
+            message:error.message,
+        })
+    }
+}
+
+export async function getCategoriasProductos(req,res){
+
+     try {
+     
+        const categoriaYproductosXusuario= await Usuario.findAll({
+            attributes:['id','nombre','correo','contrasena','estado'],
+            include:[
+                {
+                    model:Categoria,
+                    required:true,                                    
+                }
+            ]
+
+        })
+        res.json(categoriaYproductosXusuario);
+    } catch (error) {
+        res.status(500).json({
+            message:error.message,
+        })
+    }
 }
