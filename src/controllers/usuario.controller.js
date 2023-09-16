@@ -93,6 +93,24 @@ export async function deleteUsuario(req,res){
     }   
 }
 
+/**
+ * SOLUCION 1
+ * select u.*,c.nombre categoria,p.nombre producto
+from usuarios u
+inner join categorias c ON c.usuario_id=u.id
+inner join productos p ON c.usuario_id=p.usuario_id
+ * 
+*SOLUCION 2 
+* select * from productos where usuario_id in(
+select id
+from categorias 
+where usuario_id in(
+select id
+from usuarios
+where id=1))
+ * 
+  */
+
 export async function getUsuarioCategoria(req,res){
 
     const { id }=req.params;
