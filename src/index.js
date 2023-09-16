@@ -2,6 +2,7 @@
 import app from './app.js'
 import { sequelize } from './database/database.js';
 import 'dotenv/config'
+import logger from './log/logger.js'
 
 
 async function main(){
@@ -10,6 +11,8 @@ async function main(){
 
 const PORT = process.env.PORT;
 app.listen(PORT);
+
+logger.info(`Server PORT ${PORT}`);
 console.log('Server listening en' ,PORT);
 
 
